@@ -40,7 +40,6 @@ enableEmoji = "true"
   # Change default color scheme with a variant one. Can be "red", "blue", "green".
   themeVariant = "mine"
 
-
 [outputs]
 home = [ "HTML", "RSS", "JSON"]
 

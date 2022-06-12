@@ -19,13 +19,6 @@ After giving the pipeline a name, (`scan-cfngoat-pipeline`) select **Next**.
 
 Choose **Github (Version 2)** as the **source provider**.
 
-{{% notice info %}}
-<p style='text-align: left;'>
-In some AWS events you will need to use GitHub V1. Please pay attention to the moderator's instructions.
-</p>
-{{% /notice %}}
-
-
 ![AWS CodePipeline Setup](./images/codepipeline-create-project-github-3.png "AWS CodePipeline Setup")
 
 As CodeBuild and CodePipeline are different tools, you'll also need to authorize CodePipeline to your GitHub account, select **Connect to Github** and follow the authorization redirects in the popup window.
@@ -65,13 +58,7 @@ Leave the default of **Single Build** selected and select **Next**
 
 On the next screen, select **Skip deploy stage**. We don’t want to deploy our CfnGoat CloudFormation to AWS as we’re just highlighting how to stop a build from progressing if there are security violations!
 
-![AWS CodePipeline Select Repo](./images/codepipeline-create-project-github-12.png "AWS CodePipeline Select Repo")
-
-Finally, select **Create pipeline** on the review page, which will trigger your new CodePipeline to immediately run against the latest commit in our CfnGoat repository:
-
-![AWS CodePipeline Select Repo](./images/codepipeline-create-project-github-13.png "AWS CodePipeline Select Repo")
-
-## A Little more IAM fun.
+## One final IAM change
 
 Remember we needed to allow CodeBuild to access our Bridgecrew API token earlier? Well, in the final bit of IAM plumbing for this whole workshop, we also need to allow CodeBuild to access the CodePipeline connection details.
 
@@ -79,20 +66,40 @@ This is because, when triggering CodeBuild manually, like we did earlier, CodeBu
 
 All we need to do is add a new `Inline Policy` to the `codebuild-bridgecrew-tutorial-service-role` role with the following permissions:
 
+
+![AWS CodePipeline Select Repo](./images/codepipeline-create-project-github-12.png "AWS CodePipeline Select Repo")
+
+Copy the ARN from under "ConnectionArn" under "Step 2: Add source stage." In the example above it's `arn:aws:codestar-connections:us-east-1:714...`.
+
+![AWS CodePipeline Select Repo](./images/codepipeline-create-project-github-13.png "AWS CodePipeline Select Repo")
+
+Now go to the [AWS IAM dashboard](https://console.aws.amazon.com/iamv2), click on **Roles** and search for the role created by CodePipeline ("cfngoat" should help you find it.). Click on that role.
+
+![CFN IAM role](./images/cfn-iam-role.png "CFN IAM role")
+
+Under **Add permissions** click on **Attach policies** then **Create policies**. Click on JSON and fill in the following, replacing the ARN with your ARN from CodePipeline (should still be in your clipboard).
+
+```JSON
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "codestar-connections:UseConnection",
+            "Resource": "insert connection ARN here"
+        }
+    ]
+}
 ```
 
-Read: 
-GetConnection
-PassConnection
-UseConnetion
-GetIndividualAccessToken
+![IAM Role](./images/json-iam-role.png "IAM Role")
 
-List:
-ListConnections
-```
+Don't worry about tags. Give your policy a name like `connection-permissions` and then **Create policy**. Return to the IAM page where you were attaching permissions, refresh the policy list, and select the policy you just created. Choose Attach policies.
 
-We can save this inline policy as: `codebuild-access-codestar`
+![IAM policy attach](./images/gitclone-role-policy-attach.png "IAM policy attach")
 
-## Success!
+Finally, go back to your CodePipeline and select **Create pipeline** on the review page, which will trigger your new CodePipeline to immediately run against the latest commit in our CfnGoat repository:
 
-**Now we don’t need to manually run the Checkov CLI; your developers will get a Bridgecrew scan every time they commit!** 
+![AWS CodePipeline Select Repo](./images/codepipeline-create-project-github-13.png "AWS CodePipeline Select Repo")
+
+**Now we don’t need to manually run the checkov CLI; your developers will get a Bridgecrew scan every time they commit!** 

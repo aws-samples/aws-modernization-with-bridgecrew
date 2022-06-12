@@ -18,7 +18,7 @@ To pre-build this environment for each workshop attendee, we'll run some CloudFo
 
 As the name suggests, kind nests a Kubernetes cluster inside containers on your existing (Docker, Podman, ContainerD, etc) system.
 
-We’ll be using KIND to ensure everyone has the same, repeatable Kubernetes configuration for this workshop, regardless of deployment location.
+We’ll be using kind to ensure everyone has the same, repeatable Kubernetes configuration for this workshop, regardless of deployment location.
 
 ### Setting up the workshop environment via CloudFormation
 	
