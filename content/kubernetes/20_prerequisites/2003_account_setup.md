@@ -7,7 +7,7 @@ pre: "<b>2.3 </b>"
 
 ## A free Bridgecrew account
 
-The Bridgecrew platform will give us visibility, solutions, and alerts from the first line of Kubernetes manifest all the way through to checking the running cluster’s security posture. Sign up or log in to an existing account at  [https://bridgecrew.cloud](https://bridgecrew.cloud)
+The Bridgecrew platform will give us visibility, solutions, and alerts from the first line of Kubernetes manifest all the way through to checking the running cluster’s security posture. Sign up or log in to an existing account at [https://bridgecrew.cloud](https://bridgecrew.cloud)
 
 
 ![alt_text](images/bcSignup.png "image_tooltip")
@@ -15,7 +15,7 @@ The Bridgecrew platform will give us visibility, solutions, and alerts from the 
 
 ### Generate a Bridgecrew API key
 
-Throughout this tutorial, you’ll need to use the Bridgecrew API token. You can [access it here](https://www.bridgecrew.cloud/integrations/catalog) or in your Bridgecrew account by navigating to the Integrations tab and selecting API Token. Add a token for the workshop and save it in your notes for later use. 
+Throughout this tutorial, you’ll need to use the Bridgecrew API token. You can [access it here](https://www.bridgecrew.cloud/integrations/catalog) or in your Bridgecrew account by navigating to the **Integrations** tab and selecting API Token. Add a token for the workshop and save it in your notes for later use. 
 
 
 ![alt_text](images/bcApiKey.png "image_tooltip")
@@ -28,12 +28,12 @@ GitHub discourages individuals from having more than one account. If you already
 
 ![alt_text](images/gitHubLogin.png "image_tooltip")
 
-### Fork KustomizeGgoat
+### Fork KustomizeGoat
 
-This workshop uses our vulnerable-by-design Kubernetes & Kustomize project, [KustomizeGoat.](https://github.com/bridgecrewio/kustomizegoat/), This project gives us a base set of deployments we can explore, edit, and remediate without needing to integrate your own code.
+This workshop uses our vulnerable-by-design Kubernetes and Kustomize project, [KustomizeGoat](https://github.com/bridgecrewio/kustomizegoat/). This project gives us a base set of deployments we can explore, edit, and remediate without needing to integrate your own code.
 
 
-#### Fork the KustomizeGgoat repository on GitHub
+#### Fork the KustomizeGoat repository on GitHub
 
 To set up your demo environment, we’re going to fork the KustomizeGoat repository.
 
@@ -52,17 +52,4 @@ https://github.com/<your-github-user>/kustomizegoat.git
 
 
 ![alt_text](images/kustomizeGoatClone.png "image_tooltip")
-
-#### Verify Cloud9 environment access
-
-Finally, lets check on the environment that CloudFormation has built for us. 
-Click here: [https://us-east-2.console.aws.amazon.com/cloud9/home/shared?region=us-east-2](https://us-east-2.console.aws.amazon.com/cloud9/home/shared?region=us-east-2) to load the *Cloud9 Environments* within your AWS account. You will see a single `bridgecrew-workshop` environment which our automation has created!
-
-Click *Open IDE*. You will be taken to an environment which we will use for the rest of the workshop.
-
-* The file browser down the left hand side already has your fork of KustomizeGoat available.
-* The terminal window along the bottom of the browser tab is within our kubernetes cluster, `kubectl`, `checkov` and other commands needed for the workshop will work out of the box.
-* You can open/edit files by double clicking on a file within the file browser from the left, just like a locally installed IDE.
-
-If you have any issues accessing this environment, let your workshop host know.
 

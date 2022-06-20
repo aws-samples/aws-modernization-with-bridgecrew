@@ -14,7 +14,7 @@ As with AWS CodeBuild, we’ll also automatically send the results to Brigecrew 
 Generally speaking, you wouldn't configure both CI/CD solutions for a single repository, consider this page informational only if you have followed through the AWS CodeBuild and AWS CodeDeploy sections, the observability provided into the Bridgecrew platform will be similar.
 {{% /notice %}}
 
-As with other Integrations, the GitHub Actions CI/CD integration page at [https://www.bridgecrew.cloud/integrations/githubActions](https://www.bridgecrew.cloud/integrations/githubActions) allows us to setup GitHub Actions by following the integration setup prompts:
+As with other Integrations, the GitHub Actions CI/CD integration page at [https://www.bridgecrew.cloud/integrations/githubActions](https://www.bridgecrew.cloud/integrations/githubActions) allows us to setup GitHub Actions. Give the API key a name like `gh_action` and then click "Create" and "Next."
 
 ![GitHub Action Integration in Bridgecrew](./images/github_action_1.png "GitHub Action Integration in Bridgecrew")
 
@@ -43,7 +43,6 @@ Copy and paste your API Token from the Bridgecrew integration details page into 
 ![CFNGoat repository secrets](./images/github_action_4.png "CFNGoat repository secrets")
 
 Select **Add secret**, the secret will then be listed by name in the **Settings > Secrets** page you'll be taken back too.
-
 
 ![CFNGoat repository secrets](./images/github_action_5.png "CFNGoat repository secrets")
 
@@ -74,14 +73,13 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8]
-  steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-      - name: Run Bridgecrew 
-        id: Bridgecrew
-        uses: bridgecrewio/bridgecrew-action@master 
-        with:
-          api-key: ${{ secrets.BC_API_KEY }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run Bridgecrew 
+      id: Bridgecrew
+      uses: bridgecrewio/bridgecrew-action@master
+      with:
+        api-key: ${{ secrets.BC_API_KEY }}
 ```
 The result should look like this, select **Start commit**
 
@@ -109,7 +107,7 @@ Rather than digging through the job logs, the action also outputs annotations fo
 
 
 {{% notice tip %}}
-By default, the Bridgecrew GitHub Action is designed to pass, acting as a reporting and observability task, which updates the Bridgecrew dashboard of the current security posture within the CI/CD pipeline. 
+If you want your GitHub Action to soft-fail and just act as an observability tool, add "soft_fail: true" under "api-key" in the YAML. 
 {{% /notice %}}
 
 ## Congratulations!
